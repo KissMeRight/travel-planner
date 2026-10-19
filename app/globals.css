@@ -1,26 +1,46 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  --color-surface: #ffffff; 
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-slate-50 text-slate-800;
+}
+
+.dark {
+  color-scheme: dark;
+  --color-surface: #162033;
+
+  --color-slate-50: #0b1220;
+  --color-slate-100: #1e293d;
+  --color-slate-200: #2a3850;
+  --color-slate-300: #3a4a66;
+  --color-slate-400: #7385a3;
+  --color-slate-500: #94a3b8;
+  --color-slate-600: #b4c0d3;
+  --color-slate-700: #cbd5e1;
+  --color-slate-800: #e5eaf2;
+  --color-slate-900: #f4f7fb;
+
+  --color-teal-50: #0f2f2d;
+  --color-teal-100: #134442;
+  --color-teal-200: #0f5a55;
+  --color-teal-300: #1d7a72;
+  --color-teal-400: #2fa89c;
+  --color-teal-700: #5eead4;
+
+  --color-sky-50: #0c1b2e;
+  --color-emerald-50: #0e2d25;
+  --color-emerald-100: #14423a;
+  --color-emerald-700: #6ee7b7;
+  --color-indigo-50: #1d2150;
+  --color-indigo-100: #2a2f6e;
+  --color-indigo-700: #a5b4fc;
+  --color-amber-100: #40300f;
+  --color-amber-700: #fcd34d;
+  --color-red-50: #3b1519;
+  --color-red-100: #4d1c21;
+  --color-red-700: #fca5a5;
 }
