@@ -91,26 +91,24 @@ export default function HomePage() {
     init();
   }, [router, loadTrips, loadInvites]);
 
-  // realtime: มีคนเชิญเรา → กล่องคำเชิญเด้งขึ้นทันที
+  // สำรอง: โหลดคำเชิญใหม่เมื่อกลับมาที่แท็บ และทุก 15 วินาที
   useEffect(() => {
     if (!userId) return;
-    const channel = supabase
-      .channel(`invites-${userId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "trip_invites",
-          filter: `invitee_id=eq.${userId}`,
-        },
-        () => loadInvites()
-      )
-      .subscribe();
-    return () => {
-      supabase.removeChannel(channel);
+    const refresh = () => {
+      if (document.visibilityState === "visible") {
+        loadInvites();
+        loadTrips();
+      }
     };
-  }, [userId, loadInvites]);
+    const timer = setInterval(refresh, 15000);
+    document.addEventListener("visibilitychange", refresh);
+    window.addEventListener("focus", refresh);
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("focus", refresh);
+    };
+  }, [userId, loadInvites, loadTrips]);
 
   async function respond(inv: Invite, accept: boolean) {
     setBusyInvite(inv.invite_id);
